@@ -30,10 +30,10 @@ class Store:
         return all_active_products
 
 
-    def order(self, shopping_list) -> float:
+    def order(self, order_list) -> float:
         total_price = 0
 
-        for product in shopping_list:
+        for product in order_list:
             product_name = product[0]
             quantity = product[1]
 
