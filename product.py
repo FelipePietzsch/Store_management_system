@@ -1,12 +1,3 @@
-"""
-instacne variables:
-Name (str)
-Price (float)
-Quantity (int)
-Active (bool)
-
-"""
-# steht für ein produkt. z.B macbook air
 class Product:
     def __init__(self, name:str, price:float, quantity:int, active:bool=True):
         self.name = name
@@ -26,6 +17,7 @@ class Product:
 
     def is_active(self):
         return self.active
+
 
     def activate(self):
         self.active = True
@@ -47,8 +39,6 @@ class Product:
             return f"Total Price: {total_price}, new product quantiy: {self.quantity}"
         except ValueError as e:
             print(e)
-
-
 
 
     def reduce_quantity(self, quantity):
