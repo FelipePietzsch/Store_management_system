@@ -5,12 +5,13 @@ class User_Interface:
     def __init__(self, store):
         self.store = store
 
-    @staticmethod
-    def get_order():
+
+    def get_order(self):
         order_list = []
         while True:
             try:
-                product_name = int(input("Which product # do you want? "))
+                product_index = int(input("Which product # do you want? "))
+                product_name = self.store.products[product_index-1]
                 quantity = int(input("What amount do you want? "))
                 break
             except ValueError as e:
@@ -47,7 +48,7 @@ class User_Interface:
     def create_order(self):
         self.list_all_products()
 
-        order_list = User_Interface.get_order()
+        order_list = self.get_order()
 
         if type(order_list) is list:
             total_price = self.store.order(order_list)
