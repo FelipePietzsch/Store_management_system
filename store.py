@@ -1,5 +1,3 @@
-import product
-
 class Store:
     def __init__(self, products:list):
         self.products = products
@@ -38,6 +36,8 @@ class Store:
             quantity = product[1]
 
             total_price += product_name.price * quantity
+
+            product_name.quantity -= quantity
 
         return total_price
 

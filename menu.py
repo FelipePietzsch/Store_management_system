@@ -1,11 +1,8 @@
-import store
-import product
-# ist eine class, die die aktionen des stores ausführt
 class User_Interface:
     def __init__(self, store):
         self.store = store
 
-
+    # dafür sorgen, dass immer weiter nach produckten gesucht wird, bis keine iengabe mehr kommmt
     def get_order(self):
         order_list = []
         while True:
@@ -13,10 +10,10 @@ class User_Interface:
                 product_index = int(input("Which product # do you want? "))
                 product_name = self.store.products[product_index-1]
                 quantity = int(input("What amount do you want? "))
-                break
+                break # hier muss die schleife weitergehen
             except ValueError as e:
                 print(e)
-        if product_name == 0 or quantity == 0:
+        if product_name == 0 or quantity == 0: # dass muss der break sein
             return None
         else:
             order_list.append((product_name, quantity))
