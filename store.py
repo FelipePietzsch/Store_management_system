@@ -36,7 +36,7 @@ class Store:
             quantity = product[1]
 
             total_price += product_name.price * quantity
-
+            #was wenn quantity <= 0 wird?
             product_name.quantity -= quantity
 
         return total_price

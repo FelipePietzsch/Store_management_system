@@ -1,29 +1,39 @@
+from ast import Index
+
+
 class User_Interface:
     def __init__(self, store):
         self.store = store
-
-    # dafür sorgen, dass immer weiter nach produckten gesucht wird, bis keine iengabe mehr kommmt
-    def get_order(self):
-        order_list = []
-        while True:
-            try:
-                product_index = int(input("Which product # do you want? "))
-                product_name = self.store.products[product_index-1]
-                quantity = int(input("What amount do you want? "))
-                break # hier muss die schleife weitergehen
-            except ValueError as e:
-                print(e)
-        if product_name == 0 or quantity == 0: # dass muss der break sein
-            return None
-        else:
-            order_list.append((product_name, quantity))
-
-        return order_list
 
 
     @staticmethod
     def quit():
         quit()
+
+
+    def get_order(self):
+        order_list = []
+        while True:
+            try:
+
+                product_index = input("Which product # do you want? ")
+                quantity = input("What amount do you want? ")
+
+                if len(product_index) == 0 or len(quantity) == 0:
+                    return order_list
+
+                product_index = int(product_index)
+                quantity = int(quantity)
+
+                product_name = self.store.products[product_index - 1]
+                order_list.append((product_name, quantity))
+
+            except ValueError as e:
+                print(e)
+
+            except IndexError as e:
+                print(e)
+
 
     def list_all_products(self):
         all_active_products = self.store.get_all_products()
