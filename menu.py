@@ -25,7 +25,7 @@ class User_Interface:
                 product_index = int(product_index)
                 quantity = int(quantity)
 
-                product_name = self.store.products[product_index - 1]
+                product_name = self.store.get_all_products()[product_index - 1]
                 order_list.append((product_name, quantity))
 
             except ValueError as e:
