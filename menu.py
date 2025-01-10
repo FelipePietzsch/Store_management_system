@@ -1,18 +1,19 @@
-from ast import Index
-
-
 class User_Interface:
+    """class contains all data and functions to interact, with the referenced 'class Store', via the UI"""
     def __init__(self, store):
         self.store = store
 
 
     @staticmethod
     def quit():
+        """Quits programm"""
         quit()
 
 
     def get_order(self):
+        """Takes the order from User and checks if it is valid"""
         order_list = []
+        print("Type in your order. For ending order type in ''")
         while True:
             try:
 
@@ -36,6 +37,7 @@ class User_Interface:
 
 
     def list_all_products(self):
+        """Displays all active products in the 'class Store'"""
         all_active_products = self.store.get_all_products()
         product_num = 0
 
@@ -47,12 +49,14 @@ class User_Interface:
 
 
     def total_amount(self):
+        """Displays the total amount of products in the 'class Store'"""
         total_amount = self.store.get_total_quantity()
 
         print(f"Total of {total_amount} items in store")
 
 
     def create_order(self):
+        """Creates the Order from User, checks it validation and displays the final total_price"""
         self.list_all_products()
 
         order_list = self.get_order()

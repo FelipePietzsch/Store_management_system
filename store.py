@@ -1,17 +1,21 @@
 class Store:
+    """contains all data and functions to interact with an store object"""
     def __init__(self, products:list):
         self.products = products
 
 
     def add_product(self, product):
+        """adds a new product to the store"""
         self.products.append(product)
 
 
     def remove_product(self, product):
+        """removes a product from the store (!the product will be deleted, not deactivated)"""
         self.products.remove(product)
 
 
     def get_total_quantity(self):
+        """returns the total amout of products in the store"""
         total_quantity = 0
         for product in self.products:
             total_quantity += product.get_quantity()
@@ -20,6 +24,7 @@ class Store:
 
 
     def get_all_products(self):
+        """returns all active products"""
         all_active_products = []
         for product in self.products:
             if product.active:
@@ -29,6 +34,7 @@ class Store:
 
 
     def order(self, order_list) -> float:
+        """creates a list with all products, who where made in a order in menu.py: 60; than executes the '.buy()' method from product.py: 41"""
         total_price = 0
 
         for product in order_list:
