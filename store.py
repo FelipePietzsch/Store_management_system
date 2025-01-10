@@ -32,12 +32,15 @@ class Store:
         total_price = 0
 
         for product in order_list:
-            product_name = product[0]
-            quantity = product[1]
+            try:
+                product_name = product[0]
+                quantity = product[1]
+                product_name.buy(quantity)
 
-            product_name.buy(quantity) #checkt, ob es genug produkte im store gibt
-
-            total_price += product_name.price * quantity
+                total_price += product_name.price * quantity
+            # gets Error raise form product.py: 38
+            except ValueError as e:
+                print(e)
 
         return total_price
 
