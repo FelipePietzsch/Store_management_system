@@ -34,21 +34,17 @@ class Product:
     def buy(self, quantity):
         total_price = self.price * quantity
 
-        try:
-            self.reduce_quantity(quantity)
-            return f"Total Price: {total_price}, new product quantiy: {self.quantity}"
-        except ValueError as e:
-            print(e)
-
-
-    def reduce_quantity(self, quantity):
         if self.quantity < quantity:
+            # raise will be risen by store.py:38
             raise ValueError(f"Not enough {self.name}´s in stock. Only {self.quantity} {self.name}´s left.")
         else:
             self.quantity -= quantity
 
         if self.quantity == 0:
             self.active = False
+            return f"Total Price: {total_price}, new product quantiy: {self.quantity}"
+
+
 
 
 
