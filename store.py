@@ -35,9 +35,9 @@ class Store:
             product_name = product[0]
             quantity = product[1]
 
+            product_name.buy(quantity) #checkt, ob es genug produkte im store gibt
+
             total_price += product_name.price * quantity
-            #was wenn quantity <= 0 wird?
-            product_name.quantity -= quantity
 
         return total_price
 
