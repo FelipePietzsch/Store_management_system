@@ -1,6 +1,5 @@
-import product
-import store
-import menu
+from programm_modules import product, store, menu
+
 
 def start(store):
     """Asks user for input and executes funktion from dictionary
