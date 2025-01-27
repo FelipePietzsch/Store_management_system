@@ -117,28 +117,30 @@ class DigitalProduct(Product):
 
 
 class LimitedProduct(Product):
-  def __init__(self, name, price, quantity, purchuasion):
+  def __init__(self, name, price, quantity, maximum):
     super().__init__(name, price, quantity)
-    self.purchuasion = purchuasion
+    self.maximum = maximum
 
 
   @property
-  def purchuasion(self):
-    return self.purchuasion
+  def maximum(self):
+    return self.maximum
 
 
-  @purchuasion.setter
-  def purchuasion(self, new_purchasion):
-    if new_purchasion < 0:
+  @maximum.setter
+  def maximum(self, new_maximum):
+    if new_maximum < 0:
       raise ValueError("Purchuasion must not be negative!")
     else:
-      self.purchuasion = new_purchasion
+      self.maximum = new_maximum
+
 
   def buy(self, quantity):
     """executes a 'buy' action for the product. checks if given quanity is valid calculates new quanity of the product"""
     super().buy(quantity)
-    if quantity > self.purchuasion:
-      raise(f"{str(self).upper} can only purchuated {self.purchuasion} times!")
+    if quantity > self.maximum:
+      raise(f"{str(self).upper} can only purchuated {self.maximum} times!")
+
 
 
   # LimitedProduct weiter ausformulieren
