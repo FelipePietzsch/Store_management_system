@@ -1,3 +1,5 @@
+from math import inf
+
 class Product:
   """Contains all data and functions, to interact with a specific type of product"""
   def __init__(self, name:str, price:float, quantity:int, active:bool=True):
@@ -8,7 +10,6 @@ class Product:
 
 
     # self.name exceptions
-
     # is name a str?
     if not isinstance(self.name, str):
       raise TypeError("Error: Name must be a string!")
@@ -32,7 +33,9 @@ class Product:
 
 
     # self.quantity exceptions
+    self._validade_quanity()
 
+  def _validade_quanity(self):
     # is quantity an int=
     if not isinstance(self.quantity, int):
       raise ValueError("Error: Quantity must be an integer!")
@@ -42,8 +45,11 @@ class Product:
       raise ValueError("Error: Quantity must not be negative")
 
 
+  # hier eibauen, dass man nur quantity bentutzen muss
+  # 1. self.quanitity() = x
+  # 2. print(self.quantitiy())
 
-  def get_quantity(self) -> float:
+  def get_quantity(self) -> int:
     """returns the quantity of the Product instance"""
     return self.quantity
 
@@ -87,6 +93,62 @@ class Product:
     if self.quantity == 0:
       self.active = False
       return f"Total Price: {total_price}, new product quantiy: {self.quantity}"
+
+
+class DigitalProduct(Product):
+  def __init__(self, name, price):
+    super().__init__(name, price, quantity=0)
+    self.quantity = inf
+
+
+    # self.quantity exceptions
+    self._validade_quanity()
+
+
+  def _validade_quanity(self):
+    """if self.quantity is not 'inf' ValueError will be raised"""
+    if self.quantity != inf:
+      raise ValueError("Quantity for digital products must always be 'inf'")
+
+  def set_quantity(self, quantity):
+    """self.quanity must not be changed"""
+    raise AttributeError("Quantity for digital products must always be 'inf'")
+
+
+
+class LimitedProduct(Product):
+  def __init__(self, name, price, quantity, purchuasion):
+    super().__init__(name, price, quantity)
+    self.purchuasion = purchuasion
+
+
+  @property
+  def purchuasion(self):
+    return self.purchuasion
+
+
+  @purchuasion.setter
+  def purchuasion(self, new_purchasion):
+    if new_purchasion < 0:
+      raise ValueError("Purchuasion must not be negative!")
+    else:
+      self.purchuasion = new_purchasion
+
+  def buy(self, quantity):
+    """executes a 'buy' action for the product. checks if given quanity is valid calculates new quanity of the product"""
+    super().buy(quantity)
+    if quantity > self.purchuasion:
+      raise(f"{str(self).upper} can only purchuated {self.purchuasion} times!")
+
+
+  # LimitedProduct weiter ausformulieren
+  # purchased x times coden
+
+
+
+
+
+
 
 
 
