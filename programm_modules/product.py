@@ -85,7 +85,7 @@ class Product:
 
     # reduces price by promotion
     if isinstance(self._promotion, promotion.Promotion):
-      total_price = self._promotion.apply_promotion(quantity)
+      total_price = self._promotion.apply_promotion(self, quantity)
 
     if self.quantity < quantity:
       # exception will be risen by store.py:38

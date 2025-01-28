@@ -1,6 +1,10 @@
 import pytest
 from programm_modules import product
 from programm_modules import promotion
+from programm_modules import store
+from programm_modules import menu
+from programm_modules.menu import User_Interface
+from programm_modules.store import Store
 
 
 def test_negative_priced_object():
@@ -58,3 +62,19 @@ product_list[3].set_promotion(thirty_percent)
 test_negative_quantitated_objekt()
 test_negative_priced_object()
 test_different_name_inputs()
+
+test_buy = Store(product_list)
+user_menu = User_Interface(test_buy)
+
+# buy tests for test_buy:
+test_buy.get_all_products()
+order_list = [(product_list[0], 5),
+             (product_list[1], 100),
+             (product_list[2], 50),
+             (product_list[3], 50),
+             (product_list[4], 1)
+             ]
+test_buy.order(order_list)
+
+
+
