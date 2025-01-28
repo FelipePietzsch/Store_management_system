@@ -1,11 +1,10 @@
-from tkinter import XView
-
 import main
 import pytest
 import math
-from programm_modules.product import Product
+from programm_modules import product
 from programm_modules.menu import User_Interface
 from programm_modules.store import Store
+from programm_modules import promotion
 
 
 def test_negative_priced_object():
@@ -42,6 +41,23 @@ def test_buy_more_than_is_in_stock():
     iphone = Product("iPhone", 1, 1)
     iphone.buy(2)
 
+# setup initial stock of inventory
+product_list = [ product.Product("MacBook Air M2", price=1450, quantity=100),
+                 product.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                 product.Product("Google Pixel 7", price=500, quantity=250),
+                 product.NonStockedProduct("Windows License", price=125),
+                 product.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
+               ]
+
+# Create promotion catalog
+second_half_price = promotion.SecondHalfPrice("Second Half price!")
+third_one_free = promotion.ThirdOneFree("Third One Free!")
+thirty_percent = promotion.PercentDiscount("30% off!", percent=30)
+
+# Add promotions to products
+product_list[0]._promotion(second_half_price)
+product_list[1]._promotion(third_one_free)
+product_list[3]._promotion(thirty_percent)
 
 test_negative_quantitated_objekt()
 test_negative_priced_object()

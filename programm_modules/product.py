@@ -8,7 +8,7 @@ class Product:
     self.price = price
     self.quantity = quantity
     self.active = active
-    self.promotion = None
+    self.__promotion = None
 
 
     # self.name exceptions
@@ -75,6 +75,10 @@ class Product:
 
   def show(self):
     """shows the instace-variable values of name, price and quanity"""
+
+    if isinstance(self.__promotion, promotion.Promotion):
+      return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {self.__promotion}"
+
     return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
 
@@ -83,8 +87,8 @@ class Product:
     total_price = self.price * quantity
 
     # reduces price by promotion
-    if isinstance(self.promotion, promotion.Promotion):
-      total_price = self.promotion.apply_promotion(quantity)
+    if isinstance(self.__promotion, promotion.Promotion):
+      total_price = self.__promotion.apply_promotion(quantity)
 
     if self.quantity < quantity:
       # exception will be risen by store.py:38
@@ -98,21 +102,20 @@ class Product:
 
 
   @property
-  def promotion(self):
-    return self.promotion
+  def _promotion(self):
+    return self.__promotion
 
 
-  @promotion.setter
-  def promotion(self, promotion):
-    self.promotion = promotion
+  @_promotion.setter
+  def _promotion(self, new_promotion):
+    self.__promotion = new_promotion
 
 
 
-class DigitalProduct(Product):
+class NonStockedProduct(Product):
   def __init__(self, name, price):
     super().__init__(name, price, quantity=0)
     self.quantity = inf
-
 
     # self.quantity exceptions
     self._validade_quanity()
@@ -120,7 +123,7 @@ class DigitalProduct(Product):
 
   def _validade_quanity(self):
     """if self.quantity is not 'inf' ValueError will be raised"""
-    if self.quantity != inf:
+    if self.quantity != inf or self.quantity != 0:
       raise ValueError("Quantity for digital products must always be 'inf'")
 
   def set_quantity(self, quantity):
