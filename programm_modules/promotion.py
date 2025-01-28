@@ -16,20 +16,22 @@ class Promotion(ABC):
 class PercentDiscount(Promotion):
   def __init__(self, promotion, percent:int):
     super().__init__(promotion)
-    self.percent = percent * 0.01 # percent to float
-    self.validade_discount()
+    self.percent = percent
+    self.validade_percent()
 
 
-  def validade_discount(self):
+  def validade_percent(self):
     """Checks, if self.discount is initialated correct"""
     if not isinstance(self.percent, int):
-      raise ValueError("Discount must be an integer!")
+      raise ValueError("Percent must be an integer!")
 
     if self.percent > 100:
-      raise ValueError("Discount max is 100!")
+      raise ValueError("Percent max is 100!")
 
     if self.percent < 0:
-      raise ValueError("Discount must not be negative!")
+      raise ValueError("Percent must not be negative!")
+
+    self.percent = self.percent * 0.01 # percent to float
 
 
   def apply_promotion(self, product, quantity):

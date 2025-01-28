@@ -3,13 +3,12 @@ from programm_modules import promotion
 
 class Product:
   """Contains all data and functions, to interact with a specific type of product"""
-  def __init__(self, name:str, price:float, quantity:int, active:bool=True):
+  def __init__(self, name:str, price:float, quantity, active:bool=True):
     self.name = name
     self.price = price
     self.quantity = quantity
     self.active = active
-    self.__promotion = None
-
+    self._promotion = None
 
     # self.name exceptions
     # is name a str?
@@ -20,9 +19,7 @@ class Product:
     if len(self.name) == 0:
       raise ValueError("Error: Name must be an empty string")
 
-
     # self.price exceptions
-
     # is price a float?
     if isinstance(self.price, int):
       self.price = float(self.price)
@@ -33,9 +30,9 @@ class Product:
     if self.price < 0:
       raise ValueError("Error: Price must not be negative!")
 
-
     # self.quantity exceptions
     self._validade_quanity()
+
 
   def _validade_quanity(self):
     # is quantity an int=
@@ -76,8 +73,8 @@ class Product:
   def show(self):
     """shows the instace-variable values of name, price and quanity"""
 
-    if isinstance(self.__promotion, promotion.Promotion):
-      return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {self.__promotion}"
+    if isinstance(self._promotion, promotion.Promotion):
+      return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {self._promotion}"
 
     return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
@@ -87,8 +84,8 @@ class Product:
     total_price = self.price * quantity
 
     # reduces price by promotion
-    if isinstance(self.__promotion, promotion.Promotion):
-      total_price = self.__promotion.apply_promotion(quantity)
+    if isinstance(self._promotion, promotion.Promotion):
+      total_price = self._promotion.apply_promotion(quantity)
 
     if self.quantity < quantity:
       # exception will be risen by store.py:38
@@ -101,21 +98,18 @@ class Product:
       return f"Total Price: {total_price}, new product quantiy: {self.quantity}"
 
 
-  @property
-  def _promotion(self):
-    return self.__promotion
+  def get_promotion(self):
+    return self._promotion
 
 
-  @_promotion.setter
-  def _promotion(self, new_promotion):
-    self.__promotion = new_promotion
+  def set_promotion(self, new_promotion):
+    self._promotion = new_promotion
 
 
 
 class NonStockedProduct(Product):
-  def __init__(self, name, price):
-    super().__init__(name, price, quantity=0)
-    self.quantity = inf
+  def __init__(self, name, price, quantity=inf):
+    super().__init__(name, price, quantity)
 
     # self.quantity exceptions
     self._validade_quanity()
@@ -123,7 +117,7 @@ class NonStockedProduct(Product):
 
   def _validade_quanity(self):
     """if self.quantity is not 'inf' ValueError will be raised"""
-    if self.quantity != inf or self.quantity != 0:
+    if self.quantity != inf:
       raise ValueError("Quantity for digital products must always be 'inf'")
 
   def set_quantity(self, quantity):
@@ -135,12 +129,12 @@ class NonStockedProduct(Product):
 class LimitedProduct(Product):
   def __init__(self, name, price, quantity, maximum):
     super().__init__(name, price, quantity)
-    self.maximum = maximum
+    self._maximum = maximum
 
 
   @property
   def maximum(self):
-    return self.maximum
+    return self._maximum
 
 
   @maximum.setter
@@ -148,14 +142,14 @@ class LimitedProduct(Product):
     if new_maximum < 0:
       raise ValueError("Purchuasion must not be negative!")
     else:
-      self.maximum = new_maximum
+      self._maximum = new_maximum
 
 
   def buy(self, quantity):
     """executes a 'buy' action for the product. checks if given quanity is valid calculates new quanity of the product"""
     super().buy(quantity)
-    if quantity > self.maximum:
-      raise(f"{str(self).upper} can only purchuated {self.maximum} times!")
+    if quantity > self._maximum:
+      raise(f"{str(self).upper} can only purchuated {self._maximum} times!")
 
 
 
