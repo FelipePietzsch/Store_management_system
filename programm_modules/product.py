@@ -3,12 +3,12 @@ from programm_modules import promotion
 
 class Product:
   """Contains all data and functions, to interact with a specific type of product"""
-  def __init__(self, name:str, price:float, quantity, active:bool=True):
+  def __init__(self, name:str, price:float, quantity, active:bool=True, promotion=None):
     self.name = name
     self.price = price
     self.quantity = quantity
     self.active = active
-    self._promotion = None
+    self._promotion = promotion
 
     # self.name exceptions
     # is name a str?

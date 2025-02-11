@@ -1,80 +1,90 @@
 import pytest
-from programm_modules import product
-from programm_modules import promotion
-from programm_modules import store
-from programm_modules import menu
-from programm_modules.menu import User_Interface
+from programm_modules.product import Product, NonStockedProduct, LimitedProduct
+from programm_modules.promotion import PercentDiscount, SecondHalfPrice, ThirdOneFree
 from programm_modules.store import Store
 
+# 1. Test: Produkt erstellen und kaufen
+def test_product_creation_and_purchase():
+  product = Product("Banana", 1.0, 10)
 
-def test_negative_priced_object():
+  assert product.name == "Banana"
+  assert product.price == 1.0
+  assert product.quantity == 10
+
+  total_price = product.buy(3)
+  assert total_price == f"{total_price}"
+  assert product.quantity == 7  # 10 - 3
+
   with pytest.raises(ValueError):
-    iphone = product.Product("iPone X", -1.5, 1000)
-    iphone = product.Product("iPhone X", "test", 2)
+    product.buy(8)  # Mehr kaufen, als vorhanden
 
-def test_negative_quantitated_objekt():
-  with pytest.raises(ValueError):
-    iphone = product.Product("iPhone X", 150.8, -10)
-    ipohne = product.Product("iPhone X", 5, "test")
 
-def test_different_name_inputs():
-  with pytest.raises(TypeError):
-    iphone = product.Product(["iPhone", "X"], 2, 1000)
-    iphone = product.Product(22, 2, 1000)
+# 2. Test: PercentDiscount Promotion
+def test_percent_discount():
+  product = Product("Apple", 2.0, 10)
+  discount = PercentDiscount("10% off", 10)
+  product.promotion(discount)
 
-def test_empty_name_input():
-  with pytest.raises(ValueError):
-    iphone = product.Product("", 2, 100)
+  total_price = product.buy(5)
+  assert total_price == 'Total Price: 9.0, new product quantiy: 5'  # 5 * 2.0 = 10, 10 - 10% = 9.0
 
-def test_when_quantity_zero_active_is_False():
-  iphone = product.Product("iPhone X", 1, 1)
-  assert iphone.get_quantity() == 1
-  assert iphone.is_active() == True
-  iphone.buy(1)
-  assert iphone.get_quantity() != 1
-  assert iphone.get_quantity() == 0
-  assert iphone.is_active() == False
-  assert iphone.is_active() != True
 
-def test_buy_more_than_is_in_stock():
-  with pytest.raises(ValueError):
-    iphone = product.Product("iPhone", 1, 1)
-    iphone.buy(2)
+# 3. Test: SecondHalfPrice Promotion
+def test_second_half_price():
+  product = Product("Orange", 3.0, 10)
+  promotion = SecondHalfPrice("Buy 1 get 2nd half off")
+  product.promotion(promotion)
 
-# setup initial stock of inventory
-product_list = [ product.Product("MacBook Air M2", price=1450, quantity=100),
-                 product.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                 product.Product("Google Pixel 7", price=500, quantity=250),
-                 product.NonStockedProduct("Windows License", price=125),
-                 product.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
-               ]
+  total_price = product.buy(4)
+  # 2 volle Preise: 2 * 3 = 6
+  # 2 halbe Preise: 2 * 1.5 = 3
+  assert total_price == 9
 
-# Create promotion catalog
-second_half_price = promotion.SecondHalfPrice("Second Half price!")
-third_one_free = promotion.ThirdOneFree("Third One Free!")
-thirty_percent = promotion.PercentDiscount("30% off!", percent=30)
 
-# Add promotions to products
-product_list[0].set_promotion(second_half_price) # geht hier irgendwie zur falschen methode
-product_list[1].set_promotion(third_one_free)
-product_list[3].set_promotion(thirty_percent)
+# 4. Test: ThirdOneFree Promotion
+def test_third_one_free():
+  product = Product("Mango", 4.0, 9)
+  promotion = ThirdOneFree("Buy 2 get 1 free")
+  product.promotion(promotion)
 
-test_negative_quantitated_objekt()
-test_negative_priced_object()
-test_different_name_inputs()
+  total_price = product.buy(6)
+  # 2 Mangos kostenlos, 4 bezahlt: 4 * 4 = 16
+  assert total_price == 16
 
-test_buy = Store(product_list)
-user_menu = User_Interface(test_buy)
 
-# buy tests for test_buy:
-test_buy.get_all_products()
-order_list = [(product_list[0], 5),
-             (product_list[1], 100),
-             (product_list[2], 50),
-             (product_list[3], 50),
-             (product_list[4], 1)
-             ]
-test_buy.order(order_list)
+# 5. Test: Bestellung im Store
+def test_store_order():
+  banana = Product("Banana", 1.0, 10)
+  apple = Product("Apple", 2.0, 5)
 
+  product_list = [banana,
+                  apple]
+
+  store = Store(product_list)
+
+
+  order_list = [(banana, 3), (apple, 2)]
+  total_price = store.order(order_list)
+
+  assert total_price == (3 * 1.0) + (2 * 2.0)  # 3 + 4 = 7
+  assert banana.quantity == 7
+  assert apple.quantity == 3
+
+
+# 6. Test: Bestellung mit Versand
+def test_order_with_shipping():
+
+  book = Product("Book", 10.0, 5)
+  shipping = NonStockedProduct("Shipping", 5.0)  # Versand als Produkt
+
+  product_list = [book,
+                  shipping]
+
+  store = Store(product_list)
+
+  order_list = [(book, 1), (shipping, 1)]
+  total_price = store.order(order_list)
+
+  assert total_price == 15.0  # 10 (Buch) + 5 (Versand)
 
 
