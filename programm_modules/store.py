@@ -1,7 +1,7 @@
 class Store:
     """contains all data and functions to interact with an store object"""
     def __init__(self, products:list):
-        self.products = products
+        self.products = products # list of classes of Product
 
 
     def add_product(self, product):
@@ -18,7 +18,7 @@ class Store:
         """returns the total amout of products in the store"""
         total_quantity = 0
         for product in self.products:
-            total_quantity += product.get_quantity()
+            total_quantity += product.quantity()
 
         return total_quantity
 
@@ -34,17 +34,19 @@ class Store:
 
 
     def order(self, order_list) -> float:
-        """creates a list with all products, who where made in a order in menu.py: 60; than executes the '.buy()' method from product.py: 41"""
+        """creates a list with all products, who where made in a order in menu.py: 60; than executes the '.buy()' method from oder_obj.py: 41"""
         total_price = 0
 
-        for product in order_list:
+        for index, oder_obj in enumerate(order_list):
+            # oder_obj is also a list/tuple
             try:
-                product_name = product[0]
-                quantity = product[1]
-                product_name.buy(quantity)
+                product_obj = oder_obj[0]
+                quantity = oder_obj[1]
 
-                total_price += product_name.price * quantity
-            # gets Error raise form product.py: 38
+
+                total_price += product_obj.buy(quantity)
+
+            # gets Error raise form oder_obj.py: 38
             except ValueError as e:
                 print(e)
 

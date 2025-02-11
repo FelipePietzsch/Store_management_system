@@ -35,23 +35,32 @@ class Product:
 
 
   def _validade_quanity(self):
-    # is quantity an int=
-    if not isinstance(self.quantity, int):
+    # is quantity an int or a flaot
+    if not isinstance(self.quantity, int) and not isinstance(self.quantity, float):
       raise ValueError("Error: Quantity must be an integer!")
+
+
 
     # is quantity negative?
     if self.quantity < 0:
       raise ValueError("Error: Quantity must not be negative")
 
+  @property
+  def quantity(self):
+    return self._quantity
 
-  def get_quantity(self) -> int:
-    """returns the quantity of the Product instance"""
-    return self.quantity
+  @quantity.setter
+  def quantity(self, value):
+    """sets self.quantity"""
+    if not isinstance(value, int) and not isinstance(value, float):
+      raise ValueError("Quantity must be an integer or float!")
 
-  def set_quantity(self, quantity):
-    """sets the quantity of the Product intace. If self.quanity == 0, the product is deactivated"""
-    self.quantity = quantity
-    if self.quantity == 0:
+    if value < 0:
+      raise ValueError("Quantity must not be negative!")
+
+    self._quantity = value
+
+    if self._quantity == 0:
       self.active = False
 
 
@@ -79,11 +88,12 @@ class Product:
     return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
 
-  def buy(self, quantity):
+  def buy(self, quantity) -> float:
     """executes a 'buy' action for the product. checks if given quanity is valid calculates new quanity of the product"""
     total_price = self.price * quantity
 
     # reduces price by promotion
+    # if self._promotion isinstance from Poromtion class
     if isinstance(self._promotion, promotion.Promotion):
       total_price = self._promotion.apply_promotion(self, quantity)
 
@@ -95,16 +105,21 @@ class Product:
 
     if self.quantity == 0:
       self.active = False
-      return f"Total Price: {total_price}, new product quantiy: {self.quantity}"
+    # f"Total Price: {total_price}, new product quantiy: {self.quantity}"
 
+    return total_price
 
-  def get_promotion(self):
+  @property
+  def promotion(self):
     return self._promotion
 
+  @promotion.setter
+  def promotion(self, new_promotion):
+    if isinstance(new_promotion, promotion.Promotion):
+      self._promotion = new_promotion
 
-  def set_promotion(self, new_promotion):
-    self._promotion = new_promotion
-
+    else:
+      raise TypeError("promotion must be a instance of the Promotion class")
 
 
 class NonStockedProduct(Product):
@@ -117,7 +132,7 @@ class NonStockedProduct(Product):
 
   def _validade_quanity(self):
     """if self.quantity is not 'inf' ValueError will be raised"""
-    if self.quantity != inf:
+    if not isinstance(self.quantity, float):
       raise ValueError("Quantity for digital products must always be 'inf'")
 
   def set_quantity(self, quantity):
@@ -149,7 +164,9 @@ class LimitedProduct(Product):
     """executes a 'buy' action for the product. checks if given quanity is valid calculates new quanity of the product"""
     super().buy(quantity)
     if quantity > self._maximum:
-      raise(f"{str(self).upper} can only purchuated {self._maximum} times!")
+      raise f"{str(self).upper} can only purchuated {self._maximum} times!"
+
+
 
 
 

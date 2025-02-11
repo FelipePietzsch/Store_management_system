@@ -37,7 +37,7 @@ class PercentDiscount(Promotion):
   def apply_promotion(self, product, quantity):
     """Returns new price, after discount"""
     price = product.price * quantity
-    promotion_price = price * self.percent
+    promotion_price = price * (1 - self.percent)
     return promotion_price
 
 
