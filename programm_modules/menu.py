@@ -51,7 +51,7 @@ class User_Interface:
             product_num += 1
 
             if isinstance(product.promotion, Promotion):
-                print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}, {product.promotion}")
+                print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}, {product.promotion.promotion}")
             else:
                 print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}")
 
