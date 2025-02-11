@@ -17,9 +17,10 @@ class User_Interface:
         while True:
             try:
 
-                product_index = input("Which product # do you want? ")
-                quantity = input("What amount do you want? ")
+                product_index = input("Which product # do you want?: ")
+                quantity = input("What amount do you want?: ")
 
+                # if user_input is an empty string, user gets back an empty list
                 if len(product_index) == 0 or len(quantity) == 0:
                     return order_list
 
@@ -29,8 +30,8 @@ class User_Interface:
                 product_name = self.store.get_all_products()[product_index - 1]
                 order_list.append((product_name, quantity))
 
-            except ValueError as e:
-                print(e)
+            except ValueError:
+                print("Invalid input. Please enter valid numbers for product and quantity.")
 
             except IndexError as e:
                 print(e)
@@ -66,6 +67,29 @@ class User_Interface:
 
             print("********")
             print(f"Order made! Total payment: ${total_price}")
+
+
+    def run(self):
+        while True:
+            print("\nWelcome to the Store!")
+            print("1. List all products")
+            print("2. Place an order")
+            print("3. Show total items in store")
+            print("4. Quit")
+            choice = input("Select an option: ")
+
+            if choice == '1':
+                self.list_all_products()
+            elif choice == '2':
+                self.create_order()
+            elif choice == '3':
+                self.total_amount()
+            elif choice == '4':
+                self.quit()
+            else:
+                print("Invalid option, please try again.")
+
+
 
 
 
