@@ -18,7 +18,12 @@ class Store:
         """returns the total amout of products in the store"""
         total_quantity = 0
         for product in self.products:
-            total_quantity += product.quantity()
+
+            # if True product.quantity == inf
+            if isinstance(product.quantity, float):
+                total_quantity += 1
+            else:
+                total_quantity += product.quantity
 
         return total_quantity
 

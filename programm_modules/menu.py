@@ -13,7 +13,7 @@ class User_Interface:
     def get_order(self):
         """Takes the order from User and checks if it is valid"""
         order_list = []
-        print("Type in your order. For ending order type in ''")
+        print("Type in your order. For ending order type in '' two times")
         while True:
             try:
 
@@ -87,7 +87,7 @@ class User_Interface:
             elif choice == '4':
                 self.quit()
             else:
-                print("Invalid option, please try again.")
+                print("Invalid option, please type in a valid number (1-4):")
 
 
 

@@ -123,8 +123,8 @@ class Product:
 
 
 class NonStockedProduct(Product):
-  def __init__(self, name, price, quantity=inf):
-    super().__init__(name, price, quantity)
+  def __init__(self, name, price, quantity=inf, promotion=None):
+    super().__init__(name, price, quantity, promotion)
 
     # self.quantity exceptions
     self._validade_quanity()
@@ -142,8 +142,8 @@ class NonStockedProduct(Product):
 
 
 class LimitedProduct(Product):
-  def __init__(self, name, price, quantity, maximum):
-    super().__init__(name, price, quantity)
+  def __init__(self, name, price, quantity, maximum, promotion=None):
+    super().__init__(name, price, quantity, promotion)
     self._maximum = maximum
 
 
