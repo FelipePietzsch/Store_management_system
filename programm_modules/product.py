@@ -159,7 +159,7 @@ class NonStockedProduct(Product):
 		self._validade_quanity()
 	
 	def _validade_quanity(self):
-		"""if self.quantity is not 'inf' ValueError will be raised"""
+		"""If self.quantity is not 'inf' ValueError will be raised"""
 		if not isinstance(self.quantity, float):
 			raise ValueError("Quantity for digital products must always be 'inf'")
 	
