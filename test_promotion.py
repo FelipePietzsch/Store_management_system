@@ -8,7 +8,7 @@ def test_percent_discount():
     promotion = PercentDiscount("20% off", 20)
 
     # Erstellen eines Produkts
-    product = Product("Book", 10.0, 5, promotion=promotion)
+    product = Product("Book", 10.0, 5, promotion_class=promotion)
 
     # Berechne den Preis nach der Promotion
     final_price = product.buy(3)  # Wir bestellen 3 Produkte
