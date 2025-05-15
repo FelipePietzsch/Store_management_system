@@ -7,10 +7,9 @@ types (standard, non-stocked, limited) and various promotion types
 """
 from programm_modules.product import Product, NonStockedProduct, LimitedProduct
 from programm_modules.store import Store
-from programm_modules.menu import User_Interface
-from math import inf
+from programm_modules.user_interface import UserInterface
 from programm_modules.promotion import PercentDiscount, SecondHalfPrice, ThirdOneFree
-
+from math import inf
 
 def main():
 	"""
@@ -30,23 +29,22 @@ def main():
 			Product("Google Pixel 7", price=500, quantity=250),
 			NonStockedProduct("Microsoft_word_software", price=500),
 			LimitedProduct("Shipping_fee", price=50, quantity=inf, maximum=1), # Assuming inf quantity for a service like shipping is intentional
-			NonStockedProduct("Microsoft 8 Licence", 300, Promotion=twenty_percent_promotion),
-			Product("Galaxy fold S", price=1200, quantity=230, Promotion=second_half_price),
-			Product("ReMarkable_2", price=250, quantity=1000, Promotion=third_one_free)
+			NonStockedProduct("Microsoft 8 Licence", 300, promotion_class=twenty_percent_promotion),
+			Product("Galaxy fold S", price=1200, quantity=230, promotion_class=second_half_price),
+			Product("ReMarkable_2", price=250, quantity=1000, promotion_class=third_one_free)
 		]
 		best_buy = Store(product_list)
 	
-		user_interface = User_Interface(best_buy)
+		user_interface = UserInterface(best_buy)
 	
 		user_interface.run()
 	
 	except ValueError as ve:
-		print(f"Error during initialization: {ve}")
+		print(f"ValueError during initialization: {ve}")
 	except TypeError as te:
-		print(f"Error during initialization: {te}")
+		print(f"TypeError during initialization: {te}")
 	except Exception as e:
 		print(f"An unexpected error occurred: {e}")
 	
-	
-	if __name__ == "__main__":
-		main()
+if __name__ == "__main__":
+	main()

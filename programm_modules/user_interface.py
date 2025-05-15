@@ -1,6 +1,6 @@
 from programm_modules.promotion import Promotion
 
-class User_Interface:
+class UserInterface:
     """class contains all data and functions to interact, with the referenced 'class Store', via the UI"""
     def __init__(self, store):
         self.store = store
@@ -71,8 +71,6 @@ class User_Interface:
     def run(self):
         while True:
             print("\nWelcome to the Store!")
-            # TODO nur objekte der Product class werden angezeigt
-            # TODO promotion muss noch geprintet werden
             print("1. List all products")
             print("2. Place an order")
             print("3. Show total items in store")

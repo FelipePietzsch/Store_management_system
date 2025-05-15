@@ -1,6 +1,5 @@
 from programm_modules.product import Product, NonStockedProduct  # Import specific classes
 
-
 class Store:
 	"""Contains all data and functions to interact with a store object."""
 	

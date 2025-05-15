@@ -1,8 +1,6 @@
 from math import inf
 from types import NoneType
-
-from programm_modules.promotion import Promotion
-
+from programm_modules.promotion import Promotion, PercentDiscount, SecondHalfPrice, ThirdOneFree
 
 class Product:
 	"""
@@ -19,12 +17,12 @@ class Product:
 		ValueError: If name is empty, price is negative, or quantity is negative.
 	"""
 	
-	def __init__(self, name: str, price: float, quantity, active: bool = True, Promotion=None):
+	def __init__(self, name: str, price: float, quantity, active: bool = True, promotion_class:Promotion=None):
 		self.name = name
 		self.price = price
 		self.quantity = quantity
 		self.active = active
-		self._product_promotion = Promotion
+		self._product_promotion = promotion_class
 		
 		# self.name exceptions
 		# is name a str?
@@ -46,8 +44,11 @@ class Product:
 		if self.price < 0:
 			raise ValueError("Error: Price must not be negative!")
 		
-		if not isinstance(self._product_promotion, Promotion) or isinstance(self._product_promotion, NoneType):
-			raise ValueError("Error: Promotion must be a Promotion-class")
+		# if product promotion is None it is ignored
+		if self._product_promotion:
+			
+			if isinstance(self._product_promotion, (Promotion, PercentDiscount, SecondHalfPrice, ThirdOneFree)):
+				raise ValueError("Error: Promotion must be a Promotion-class")
 
 		# self.quantity exceptions
 		self._validade_quanity()
@@ -152,8 +153,8 @@ class Product:
 
 class NonStockedProduct(Product):
 	"""Represents a product that is not stocked physically (e.g., software) and has infinite quantity."""
-	def __init__(self, name, price, quantity=inf, active=True, Promotion=None, ):
-		super().__init__(name, price, quantity, active, Promotion)
+	def __init__(self, name, price, quantity=inf, active=True, promotion_class=None, ):
+		super().__init__(name, price, quantity, active, promotion_class)
 		
 		# self.quantity exceptions
 		self._validade_quanity()
@@ -169,8 +170,8 @@ class NonStockedProduct(Product):
 
 
 class LimitedProduct(Product):
-	def __init__(self, name, price, quantity, maximum, active=True, Promotion=None):
-		super().__init__(name, price, quantity, active, Promotion)
+	def __init__(self, name, price, quantity, maximum, active=True, promotion_class=None):
+		super().__init__(name, price, quantity, active, promotion_class)
 		self._maximum = maximum
 	
 	@property
