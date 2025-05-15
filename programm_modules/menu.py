@@ -5,20 +5,17 @@ class User_Interface:
     def __init__(self, store):
         self.store = store
 
-
     @staticmethod
     def quit():
         """Quits programm"""
         quit()
 
-
     def get_order(self):
         """Takes the order from User and checks if it is valid"""
         order_list = []
-        print("Type in your order. For ending order type in '' two times")
+        print("Type in your order. For ending order type in 'empty_text' two times")
         while True:
             try:
-
                 product_index = input("Which product # do you want?: ")
                 quantity = input("What amount do you want?: ")
 
@@ -38,13 +35,10 @@ class User_Interface:
             except IndexError as e:
                 print(e)
 
-
     def list_all_products(self):
         """Displays all active products in the 'class Store'"""
         all_active_products = self.store.get_all_products()
         product_num = 0
-
-
 
         print("------")
         for product in all_active_products:
@@ -54,16 +48,13 @@ class User_Interface:
                 print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}, {product.promotion.promotion}")
             else:
                 print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}")
-
         print("------")
-
 
     def total_amount(self):
         """Displays the total amount of products in the 'class Store'"""
         total_amount = self.store.get_total_quantity()
 
         print(f"Total of {total_amount} items in store")
-
 
     def create_order(self):
         """Creates the Order from User, checks it validation and displays the final total_price"""
@@ -76,7 +67,6 @@ class User_Interface:
 
             print("********")
             print(f"Order made! Total payment: ${total_price}")
-
 
     def run(self):
         while True:
