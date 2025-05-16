@@ -16,10 +16,10 @@ class Product:
 		ValueError: If name is empty, price is negative, or quantity is negative.
 	"""
 	
-	def __init__(self, name: str, price: float, quantity, active: bool = True, promotion_class:Promotion=None):
+	def __init__(self, name: str, price: float, product_quantity, active: bool = True, promotion_class:Promotion=None):
 		self.name = name
 		self.price = price
-		self.product_quantity = quantity
+		self.product_quantity = product_quantity
 		self.active = active
 		self.product_promotion = promotion_class
 		

@@ -44,8 +44,8 @@ class UserInterface:
         for product in all_active_products:
             product_num += 1
 
-            if isinstance(product.promotion_type, Promotion):
-                print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}, {product.promotion_type.promotion_type}")
+            if isinstance(product.product_promotion, Promotion):
+                print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}, {product.product_promotion.promotion_type}")
             else:
                 print(f"{product_num}. {product.name}, Price: {product.price}, Quantity: {product.quantity}")
         print("------")

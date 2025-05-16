@@ -24,14 +24,14 @@ def main():
 	
 		# Initialize product list
 		product_list = [
-			Product("MacBook Air M2", price=1450, quantity=100),
-			Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-			Product("Google Pixel 7", price=500, quantity=250),
+			Product("MacBook Air M2", price=1450, product_quantity=100),
+			Product("Bose QuietComfort Earbuds", price=250, product_quantity=500),
+			Product("Google Pixel 7", price=500, product_quantity=250),
 			NonStockedProduct("Microsoft_word_software", price=500),
-			LimitedProduct("Shipping_fee", price=50, quantity=inf, maximum=1), # Assuming inf quantity for a service like shipping is intentional
+			LimitedProduct("Shipping_fee", price=50, product_quantity=inf, maximum=1), # Assuming inf quantity for a service like shipping is intentional
 			NonStockedProduct("Microsoft 8 Licence", 300, promotion_class=twenty_percent_promotion),
-			Product("Galaxy fold S", price=1200, quantity=230, promotion_class=second_half_price),
-			Product("ReMarkable_2", price=250, quantity=1000, promotion_class=third_one_free)
+			Product("Galaxy fold S", price=1200, product_quantity=230, promotion_class=second_half_price),
+			Product("ReMarkable_2", price=250, product_quantity=1000, promotion_class=third_one_free)
 		]
 		best_buy = Store(product_list)
 	
