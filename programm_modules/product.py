@@ -1,6 +1,5 @@
 from math import inf
-from types import NoneType
-from programm_modules.promotion import Promotion, PercentDiscount, SecondHalfPrice, ThirdOneFree
+from programm_modules.promotion import Promotion
 
 class Product:
 	"""
@@ -20,9 +19,9 @@ class Product:
 	def __init__(self, name: str, price: float, quantity, active: bool = True, promotion_class:Promotion=None):
 		self.name = name
 		self.price = price
-		self.quantity = quantity
+		self.product_quantity = quantity
 		self.active = active
-		self._product_promotion = promotion_class
+		self.product_promotion = promotion_class
 		
 		# self.name exceptions
 		# is name a str?
@@ -45,43 +44,43 @@ class Product:
 			raise ValueError("Error: Price must not be negative!")
 		
 		# if product promotion is None it is ignored
-		if self._product_promotion:
+		if self.product_promotion:
 			
-			if isinstance(self._product_promotion, (Promotion, PercentDiscount, SecondHalfPrice, ThirdOneFree)):
+			if not isinstance(self.product_promotion, Promotion):
 				raise ValueError("Error: Promotion must be a Promotion-class")
 
-		# self.quantity exceptions
+		# self.product_quantity exceptions
 		self._validade_quanity()
 	
 	def _validade_quanity(self):
-		# is quantity an int or a flaot
-		if not isinstance(self.quantity, int) and not isinstance(self.quantity, float):
-			raise ValueError("Error: Quantity must be an integer!")
+		# is product_quantity an int or a flaot
+		if not isinstance(self.product_quantity, int) and not isinstance(self.product_quantity, float):
+			raise ValueError("Error: product_quantity must be an integer!")
 		
 		# is quantity negative?
-		if self.quantity < 0:
-			raise ValueError("Error: Quantity must not be negative")
+		if self.product_quantity < 0:
+			raise ValueError("Error: product_quantity must not be negative")
 	
 	@property
 	def quantity(self):
 		"""returns quantity"""
-		return self._quantity
+		return self.product_quantity
 	
 	@quantity.setter
 	def quantity(self, value):
 		"""
-		Sets the quantity of the product.
-		Deactivates the product if quantity becomes 0.
+		Sets the product_quantity of the product.
+		Deactivates the product if product_quantity becomes 0.
 		"""
 		if not isinstance(value, int) and not isinstance(value, float):
-			raise ValueError("Quantity must be an integer or float!")
+			raise ValueError("product_quantity must be an integer or float!")
 		
 		if value < 0:
-			raise ValueError("Quantity must not be negative!")
+			raise ValueError("product_quantity must not be negative!")
 		
-		self._quantity = value
+		self.product_quantity = value
 		
-		if self._quantity == 0:
+		if self.product_quantity == 0:
 			self.active = False
 	
 	def is_active(self):
@@ -97,81 +96,81 @@ class Product:
 		self.active = False
 	
 	def show(self):
-		"""shows the product-variable values of name, price and quantity"""
-		if isinstance(self._product_promotion, Promotion):
-			return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {self._product_promotion}"
+		"""shows the product-variable values of name, price and product_quantity"""
+		if isinstance(self.product_promotion, Promotion):
+			return f"{self.name}, Price: {self.price}, Quantity: {self.product_quantity}, Promotion: {self.product_promotion}"
 		
-		return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
+		return f"{self.name}, Price: {self.price}, Quantity: {self.product_quantity}"
 	
-	def buy(self, quantity) -> float:
+	def buy(self, product_quantity) -> float:
 		"""
 		Executes a 'buy' action for the product.
-		Checks if the given quantity is valid and calculates the new quantity of the product.
+		Checks if the given product_quantity is valid and calculates the new product_quantity of the product.
 		
 		Args:
 		quantity_to_buy (int): The amount of the product to buy.
 		
 		Returns:
-		float: The total price for the purchased quantity.
+		float: The total price for the purchased product_quantity.
 		
 		Raises:
-		ValueError: If there is not enough stock, or if the quantity_to_buy is not positive.
+		ValueError: If there is not enough stock, or if the product_quantity is not positive.
 		"""
-		total_price = self.price * quantity
+		total_price = self.price * product_quantity
 		
 		# reduces price by promotion
 		# if self._promotion isinstance from Poromtion class
-		if isinstance(self._product_promotion, Promotion):
-			total_price = self._product_promotion.apply_promotion(self, quantity)
+		if isinstance(self.product_promotion, Promotion):
+			total_price = self.product_promotion.apply_promotion(self, product_quantity)
 		
-		if self.quantity < quantity:
+		if self.product_quantity < product_quantity:
 			# exception will be risen by store.py:38
-			raise ValueError(f"Not enough {self.name}´s in stock. Only {self.quantity} {self.name}´s left.")
+			raise ValueError(f"Not enough {self.name}´s in stock. Only {self.product_quantity} {self.name}´s left.")
 		else:
-			self.quantity -= quantity
+			self.product_quantity -= product_quantity
 		
-		if self.quantity == 0:
+		if self.product_quantity == 0:
 			self.active = False
-		# f"Total Price: {total_price}, new product quantiy: {self.quantity}"
+		# f"Total Price: {total_price}, new product quantiy: {self.product_quantity}"
 		
 		return total_price
 	
 	@property
 	def promotion(self):
 		"""Gets the promotion applied to the product."""
-		return self._product_promotion
+		return self.product_promotion
 	
 	@promotion.setter
 	def promotion(self, new_promotion):
 		"""sets the promotion for the product"""
 		if isinstance(new_promotion, Promotion):
-			self._product_promotion = new_promotion
+			self.product_promotion = new_promotion
 		
 		else:
 			raise TypeError("promotion must be a instance of the Promotion class")
 
 
 class NonStockedProduct(Product):
-	"""Represents a product that is not stocked physically (e.g., software) and has infinite quantity."""
-	def __init__(self, name, price, quantity=inf, active=True, promotion_class=None, ):
-		super().__init__(name, price, quantity, active, promotion_class)
+	"""Represents a product that is not stocked physically (e.g., software) and has infinite product_quantity."""
+	def __init__(self, name, price, product_quantity=inf, active=True, promotion_class=None, ):
+		super().__init__(name, price, product_quantity, active, promotion_class)
 		
-		# self.quantity exceptions
+		# self.product_quantity exceptions
 		self._validade_quanity()
 	
 	def _validade_quanity(self):
-		"""If self.quantity is not 'inf' ValueError will be raised"""
-		if not isinstance(self.quantity, float):
-			raise ValueError("Quantity for digital products must always be 'inf'")
+		"""If self.product_quantity is not 'inf' ValueError will be raised"""
+		if not isinstance(self.product_quantity, float):
+			raise ValueError("product_quantity for digital products must always be 'inf'")
 	
-	def set_quantity(self, quantity):
+	def set_quantity(self, product_quantity):
 		"""self.quanity must not be changed"""
-		raise AttributeError("Quantity for digital products must always be 'inf'")
+		raise AttributeError("product_quantity for digital products must always be 'inf'")
 
 
 class LimitedProduct(Product):
-	def __init__(self, name, price, quantity, maximum, active=True, promotion_class=None):
-		super().__init__(name, price, quantity, active, promotion_class)
+	def __init__(self, name, price, product_quantity, maximum, active=True, promotion_class=None):
+		super().__init__(name, price, product_quantity, active, promotion_class)
 		self._maximum = maximum
 	
 	@property
@@ -187,11 +186,11 @@ class LimitedProduct(Product):
 		else:
 			self._maximum = new_maximum
 	
-	def buy(self, quantity):
+	def buy(self, product_quantity):
 		"""Executes a 'buy' action for the limited product.
-        Checks if the purchase quantity exceeds the maximum limit."""
-		super().buy(quantity)
-		if quantity > self._maximum:
+        Checks if the purchase product_quantity exceeds the maximum limit."""
+		super().buy(product_quantity)
+		if product_quantity > self._maximum:
 			raise ValueError(
 				f"{str(self).upper()} can only purchuated {self._maximum} times!")  # Corrected to ValueError and improved message
 
