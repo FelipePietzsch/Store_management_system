@@ -1,5 +1,5 @@
-from programm_modules.product import Product, NonStockedProduct  # Import specific classes
-
+from programm_modules.product import Product, NonStockedProduct, LimitedProduct  # Import specific classes
+import math
 class Store:
 	"""Contains all data and functions to interact with a store object."""
 	
@@ -50,22 +50,25 @@ class Store:
 	def get_total_quantity(self) -> int:
 		"""
 		Returns the total amount of all items in the store.
-		For NonStockedProducts, it counts each type as 1 if present,
+		
+		For Products where product.product_qantity is inf, it counts each type as 1 if present,
 		as their quantity is conceptually infinite.
 		"""
 		total_quantity = 0
 		for product_item in self.products:
 			
 			try:
-				# NonStockedProducts have 'inf' quantity, so it counts as 1 unique item type if active.
-				if isinstance(product_item, NonStockedProduct):
-					if product_item.is_active():  # Only count if active
-						total_quantity += 1
 				
 				# check if product_item hasattr: quantity and is an int or float
-				elif hasattr(product_item, 'quantity') and isinstance(product_item.quantity, (int, float)):
-					if product_item.is_active():  # Only sum quantities of active products
-						total_quantity += int(product_item.quantity)  # Ensure it's an int for summing
+				if hasattr(product_item, 'product_quantity') and isinstance(product_item.product_quantity, (int, float)) and product_item.is_active():
+					
+					# Some Products, like NonStockedProducts have 'inf' quantity, so it counts as 1 unique item type if active.
+					if math.isinf(product_item.product_quantity):
+						total_quantity += 1
+					
+					else:
+						# Ensure it's an int for summing
+						total_quantity += int(product_item.product_quantity)
 			
 			except AttributeError:
 				print(f"Warning: Item {product_item} in store does not have a 'quantity' or 'is_active' attribute.")
