@@ -8,9 +8,9 @@ class Store:
 		if not isinstance(products, list):
 			raise TypeError("Initial products must be provided as a list.")
 		
-		for item in products:
+		for product in products:
 			# Check if items are instances of Product
-			if not isinstance(item, Product):
+			if not isinstance(product, Product):
 				raise TypeError("All items in the initial product list must be Product instances.")
 		
 		self.products = products
