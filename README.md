@@ -1,40 +1,59 @@
-# Store Management System
+# 🛍️ Store Management System (OOP Practice Project)
 
-This project is a simple store management system that allows you to manage products, take orders, and display the total quantity of all products. The system supports different product and promotion types.
+This is a **basic practice project** created to explore and understand the principles of **Object-Oriented Programming (OOP)** in Python.  
+It is intentionally simple and serves as an **exercise in structuring and organizing code using OOP concepts**.
 
-## Project Structure
+## 🧠 Project Purpose
 
-The project consists of the following Python files:
+The main goal of this project was to:
 
-- `main_store.py`: Contains the main logic of the program, initializes the products, and starts the user interface.
-- `product.py`: Defines different product classes such as `Product`, `NonStockedProduct`, and `LimitedProduct`.
-- `store.py`: Contains the `Store` class that manages the products and processes orders.
-- `promotion.py`: Defines various promotion types such as `PercentDiscount`, `SecondHalfPrice`, and `ThirdOneFree`.
-- `user_interface.py`: Provides a user interface to interact with the store.
+- Learn how to create and use **classes and objects**
+- Understand **inheritance**, **encapsulation**, and **polymorphism**
+- Practice separating logic into multiple **Python modules**
 
-## Features
+This is not a production-ready project – it’s a personal learning exercise.
 
-- **Product Management**: Add various types of products, including standard products, non-stocked products, and limited products.
-- **Promotions**: Apply different promotions to products, such as percentage discounts, "second item half price," and "third item free."
-- **Orders**: Take orders from users and process them.
-- **Display**: Show all active products and the total quantity of products in the store.
+## 📂 Project Structure
 
-## Usage
+The project is split into several Python files, each representing a part of the system:
 
-1. **Add Products**: Create instances of different product classes and add them to the store.
-2. **Apply Promotions**: Apply promotions to products to create special offers.
-3. **Take Orders**: Use the user interface to take orders from users.
-4. **Display Products**: Display all active products and their details.
+- `main_store.py`: Starts the program and sets up the store and UI.
+- `product.py`: Contains product classes like `Product`, `NonStockedProduct`, and `LimitedProduct`.
+- `store.py`: Defines the `Store` class for managing products and handling orders.
+- `promotion.py`: Includes promotion classes such as `PercentDiscount`, `SecondHalfPrice`, and `ThirdOneFree`.
+- `user_interface.py`: A simple command-line interface for interacting with the store.
 
-## Example
+## ⚙️ Features (for practice)
 
-An example of initializing the store and using the user interface can be found in the `main_store.py` file.
+- **Product Management**: Create and manage different types of products.
+- **Promotions**: Attach promotions to products to simulate discounts.
+- **Order Handling**: Let users place orders via the terminal UI.
+- **Display**: Show available products and calculate total quantities.
 
-## License
+## ▶️ How to Use
 
-This project is licensed under the MIT License.
+1. **Initialize Products** in `main_store.py`
+2. **Apply Promotions** manually in the code
+3. **Run the Program** to interact with the store via the terminal
+4. **See Output** of your product setup and orders
 
-## Possible Add-ons
+## 🔍 Example
 
-- **Dynamic Product Addition**: Currently, products can only be created during the initialization of the `Store` class. An enhancement could allow adding products dynamically during runtime.
-- **Persistent Storage**: Products are currently only stored in memory during runtime. Implementing local storage, such as JSON or a database, could allow for persistent storage of products between sessions.
+Example usage is shown in `main_store.py`.  
+It demonstrates how to create products, assign promotions, and start the store interface.
+
+## 📌 Notes
+
+- Products and promotions are **hardcoded** for now.
+- No persistent storage – everything resets when you restart the script.
+- The interface is **console-based** and minimal.
+
+## 💡 Possible Improvements (for future practice)
+
+- Allow **adding products dynamically** during runtime
+- Implement **file-based or database storage** for persistence
+- Add **error handling and input validation** to improve robustness
+
+## 📚 License
+
+This project is open for educational purposes and licensed under the MIT License.
